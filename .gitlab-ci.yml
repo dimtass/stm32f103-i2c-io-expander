@@ -31,8 +31,9 @@
     
     run_robot:
         stage: test
-        before_script: cd test
-        script: robot --pythonpath . --outputdir ./results -v I2C_SLAVE:0x08 -v BOARD:nanopi_neo2 -t "Probe STM32" -t "Config output pin" -t "Set stm32 pin high" -t "Read host pin" -t "Reset stm32 pin" -t "Read host pin 2" ./robot-tests/
+        script:
+            - cd tests/
+            - robot --pythonpath . --outputdir ./results -v I2C_SLAVE:0x08 -v BOARD:nanopi_neo2 -t "Probe STM32" -t "Config output pin" -t "Set stm32 pin high" -t "Read host pin" -t "Reset stm32 pin" -t "Read host pin 2" ./robot-tests/
         artifacts:
             paths:
             - test/report.html
