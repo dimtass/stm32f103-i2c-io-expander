@@ -12,6 +12,8 @@
         - test
     
     build:
+        tags:
+            - stm32-builder
         stage: build
         script: time TOOLCHAIN_DIR=/opt/toolchains/gcc-arm-none-eabi-9-2019-q4-major CLEANBUILD=true USE_STDPERIPH_DRIVER=ON USE_DBGUART=ON SRC=src ./build.sh
         cache:
@@ -24,12 +26,17 @@
             expire_in: 1 week
     
     flash:
+        tags:
+            - test-farm
         stage: flash
         script: st-flash --reset write build-stm32/src/stm32f103-i2c-io-expander.bin 0x8000000
         cache:
             key: build-cache
     
     run_robot:
+        tags:
+            - nanopi_neo2
+            - nanopi_k1_plus
         stage: test
         script:
             - cd tests/
